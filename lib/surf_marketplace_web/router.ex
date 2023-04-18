@@ -30,6 +30,7 @@ defmodule SurfMarketplaceWeb.Router do
     pipe_through :browser
     if Mix.env() == :prod, do: pipe_through(:admin)
 
+    live "/analytics", Admin.AnalyticsLive
     live_dashboard "/dashboard", metrics: SurfMarketplaceWeb.Telemetry
   end
 
