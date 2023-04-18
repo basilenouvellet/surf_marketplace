@@ -23,7 +23,7 @@ defmodule SurfMarketplaceWeb.Router do
   scope "/", SurfMarketplaceWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", HomeLive
   end
 
   scope "/admin", SurfMarketplaceWeb do
