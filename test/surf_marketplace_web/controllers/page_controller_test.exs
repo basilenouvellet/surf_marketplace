@@ -1,5 +1,5 @@
 defmodule SurfMarketplaceWeb.PageControllerTest do
-  use SurfMarketplaceWeb.ConnCase
+  use SurfMarketplaceWeb.ConnCase, async: true
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
