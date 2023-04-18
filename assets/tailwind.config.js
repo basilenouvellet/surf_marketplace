@@ -1,6 +1,7 @@
 // See the Tailwind configuration guide for advanced usage
 // https://tailwindcss.com/docs/configuration
 
+const colors = require("tailwindcss/colors")
 const plugin = require("tailwindcss/plugin")
 const fs = require("fs")
 const path = require("path")
@@ -14,7 +15,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: "#FD4F00",
+        brand: colors.sky[600],
       }
     },
   },
