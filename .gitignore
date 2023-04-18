@@ -1,6 +1,7 @@
 /.elixir_ls/
 .DS-Store
 **/.DS-Store
+.envrc
 
 # The directory Mix will write compiled artifacts to.
 /_build/
