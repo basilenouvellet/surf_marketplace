@@ -1,6 +1,8 @@
 defmodule SurfMarketplaceWeb.Router do
   use SurfMarketplaceWeb, :router
 
+  import Phoenix.LiveDashboard.Router
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,10 @@ defmodule SurfMarketplaceWeb.Router do
     plug :put_root_layout, {SurfMarketplaceWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+  end
+
+  pipeline :admin do
+    plug :admin_basic_auth
   end
 
   pipeline :api do
@@ -20,25 +26,28 @@ defmodule SurfMarketplaceWeb.Router do
     get "/", PageController, :home
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", SurfMarketplaceWeb do
-  #   pipe_through :api
-  # end
+  scope "/admin", SurfMarketplaceWeb do
+    pipe_through :browser
+    if Mix.env() == :prod, do: pipe_through(:admin)
 
-  # Enable LiveDashboard and Swoosh mailbox preview in development
+    live_dashboard "/dashboard", metrics: SurfMarketplaceWeb.Telemetry
+  end
+
+  # Enable Swoosh mailbox preview in development
   if Application.compile_env(:surf_marketplace, :dev_routes) do
-    # If you want to use the LiveDashboard in production, you should put
-    # it behind authentication and allow only admins to access it.
-    # If your application does not have an admins-only section yet,
-    # you can use Plug.BasicAuth to set up some basic authentication
-    # as long as you are also using SSL (which you should anyway).
-    import Phoenix.LiveDashboard.Router
-
     scope "/dev" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: SurfMarketplaceWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+  end
+
+  ### Plugs
+
+  defp admin_basic_auth(conn, _opts) do
+    username = Application.fetch_env!(:surf_marketplace, :admin_basic_auth)[:username]
+    password = Application.fetch_env!(:surf_marketplace, :admin_basic_auth)[:password]
+
+    Plug.BasicAuth.basic_auth(conn, username: username, password: password)
   end
 end
