@@ -27,6 +27,8 @@ defmodule SurfMarketplaceWeb.Router do
 
     live_session :default, on_mount: Hooks.Analytics do
       live "/", HomeLive
+      live "/log_in", AccountLive, :log_in
+      live "/register", AccountLive, :register
     end
   end
 

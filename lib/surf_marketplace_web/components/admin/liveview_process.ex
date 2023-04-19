@@ -55,7 +55,7 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
     ~H"""
     <p class="flex items-baseline gap-3 text-blue-700 bg-blue-100 rounded-full py-0.5 px-2">
       <span :if={@page_title}><%= @page_title %></span>
-      <span class="font-semibold pr-0.5"><%= @path || "no path found" %></span>
+      <span class="font-semibold"><%= @path || "no path found" %></span>
     </p>
     """
   end

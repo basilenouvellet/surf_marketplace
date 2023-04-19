@@ -1,29 +1,23 @@
 <header class="px-4 sm:px-6 lg:px-8">
-  <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
-    <%!-- Header logo --%>
-    <div class="flex items-center gap-4">
-      <a href="/">
-        <img src={~p"/images/logo.svg"} width="36" />
-      </a>
-      <p class="bg-brand-600/5 text-brand-600 rounded-full px-2 font-medium leading-6">
-        v<%= Application.spec(:phoenix, :vsn) %>
-      </p>
+  <div class="flex items-center justify-between border-b border-zinc-100 py-2 text-sm">
+    <%!-- Logo --%>
+    <div class="flex items-center gap-3">
+      <.link
+        patch={~p"/"}
+        class="py-1 px-4 bg-brand-600/10 text-brand-600/90 font-black text-xl rounded-lg"
+      >
+        Surf Marketplace
+      </.link>
     </div>
 
     <%!-- Links --%>
     <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
-      <a href="https://twitter.com/elixirphoenix" class="hover:text-zinc-700">
-        @elixirphoenix
-      </a>
-      <a href="https://github.com/phoenixframework/phoenix" class="hover:text-zinc-700">
-        GitHub
-      </a>
-      <a
-        href="https://hexdocs.pm/phoenix/overview.html"
-        class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
-      >
+      <.link patch={~p"/log_in"} class="hover:text-zinc-700">
+        Log in
+      </.link>
+      <.link patch={~p"/register"} class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80">
         Get Started <span aria-hidden="true">&rarr;</span>
-      </a>
+      </.link>
     </div>
   </div>
 </header>
