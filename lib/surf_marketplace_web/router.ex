@@ -3,6 +3,8 @@ defmodule SurfMarketplaceWeb.Router do
 
   import Phoenix.LiveDashboard.Router
 
+  alias SurfMarketplaceWeb.Hooks
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -23,7 +25,9 @@ defmodule SurfMarketplaceWeb.Router do
   scope "/", SurfMarketplaceWeb do
     pipe_through :browser
 
-    live "/", HomeLive
+    live_session :default, on_mount: Hooks.Analytics do
+      live "/", HomeLive
+    end
   end
 
   scope "/admin", SurfMarketplaceWeb do

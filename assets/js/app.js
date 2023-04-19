@@ -26,7 +26,14 @@ let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
-  params: { _csrf_token: csrfToken },
+  params: {
+    _csrf_token: csrfToken,
+    window_width: window.innerWidth,
+    window_height: window.innerHeight,
+    screen_width: window.screen.width,
+    screen_height: window.screen.height,
+    language: window.navigator.language,
+  },
   dom: {
     // NOTE: Maintain native behaviour of <dialog> and <details> elements.
     //       Taken from https://github.com/phoenixframework/phoenix_live_view/issues/2349#issuecomment-1430720906.

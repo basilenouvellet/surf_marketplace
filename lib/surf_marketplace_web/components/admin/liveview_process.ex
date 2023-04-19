@@ -4,33 +4,32 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
   def render(assigns) do
     ~H"""
     <div id={@id} class="p-4 space-y-4 text-sm text-neutral-500 bg-white rounded-md shadow-md">
-      <div class="flex flex-wrap gap-2 justify-between items-baseline">
-        <%!-- PID --%>
-        <button
-          class="hover:bg-neutral-100 rounded p-1 transition-colors duration-75"
-          phx-click={show_modal("admin-flash-message-modal-#{@id}")}
-        >
-          <%= inspect(@liveview.pid) %>
-        </button>
+      <div class="flex flex-wrap gap-3 justify-between items-baseline">
+        <div class="flex flex-wrap gap-3 items-baseline">
+          <%!-- PID --%>
+          <button
+            class="tabular-nums hover:bg-neutral-100 rounded p-1 transition-colors duration-75"
+            phx-click={show_modal("admin-flash-message-modal-#{@id}")}
+          >
+            <%= inspect(@liveview.pid) %>
+          </button>
+
+          <%!-- Current path --%>
+          <p class="font-medium text-blue-700 bg-blue-100 rounded-full py-0.5 px-2">
+            <%= @liveview.assigns[:analytics_data][:current_path] || "no path found" %>
+          </p>
+        </div>
 
         <%!-- RAM --%>
         <.ram memory={@liveview.memory} />
       </div>
-
-      <%!-- TODO: Current path --%>
-      <%!-- <p
-          :if={current_path = @liveview.assigns[:current_path]}
-          class="font-medium text-neutral-600 bg-neutral-200 rounded-full py-0.5 px-3"
-        >
-          <%= current_path %>
-        </p> --%>
 
       <div class="flex flex-wrap gap-4 [&>*]:min-w-[min(100%,30ch)]">
         <%!-- Assigns --%>
         <.details class="flex-1">
           <:summary>Assigns</:summary>
 
-          <.pretty_print data={Map.drop(@liveview.assigns, [:current_path, :analytics_data])} />
+          <.pretty_print data={Map.drop(@liveview.assigns, [:analytics_data])} />
         </.details>
 
         <%!-- Analytics Data --%>
