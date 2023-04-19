@@ -84,22 +84,21 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
   def details(assigns) do
     ~H"""
     <details class={[
-      "p-2 rounded-md border border-transparent [&[open]]:bg-neutral-50/50 [&[open]]:border-neutral-200/50",
+      "p-4 rounded-md border border-transparent [&[open]]:bg-neutral-50/50 [&[open]]:border-neutral-200/50",
       "transition-colors duration-75",
       @class
     ]}>
       <summary class={[
-        "-m-2 p-2 font-medium rounded-t-md select-none cursor-pointer focus:outline-none",
+        "-m-4 p-2 font-medium rounded-t-md select-none cursor-pointer focus:outline-none",
         "hover:bg-neutral-100",
         "[details[open]>&]:bg-neutral-100",
         "[details:not([open])>&]:rounded-b-md",
-        "[details[open]>&]:mb-2",
         "transition-colors duration-75"
       ]}>
         <%= render_slot(@summary) %>
       </summary>
 
-      <div class="pb-2 overflow-x-auto">
+      <div class="pt-3 overflow-x-auto">
         <%= render_slot(@inner_block) %>
       </div>
     </details>
@@ -114,7 +113,7 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
 
   def pretty_print(%{data: data} = assigns) when is_map(data) and data != %{} do
     ~H"""
-    <div>
+    <div class="mt-4 mb-2">
       <div :for={{key, value} <- @data} class="flex flex-nowrap">
         <span class="mr-2"><%= key %>:</span>
         <.pretty_print data={value} />
@@ -166,7 +165,13 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
         }
       >
         <p class="text-zinc-800 font-bold">Send a flash message to user <%= @string_pid %></p>
-        <textarea id={"admin-flash-message-input-#{@id}"} name="message" class="rounded-md" rows="4" />
+        <textarea
+          id={"admin-flash-message-input-#{@id}"}
+          name="message"
+          class="rounded-md"
+          rows="4"
+          required
+        />
         <.button>Send</.button>
       </form>
     </.modal>
