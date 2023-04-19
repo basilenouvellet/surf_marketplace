@@ -41,20 +41,7 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
         </.details>
       </div>
 
-      <.modal id={"admin-flash-message-modal-#{@id}"}>
-        <form
-          id={"admin-flash-message-form-#{@id}"}
-          class="flex flex-col items-start space-y-6"
-          phx-submit={
-            JS.push("send_admin_flash_message", target: @myself)
-            |> hide_modal("admin-flash-message-modal-#{@id}")
-          }
-        >
-          <textarea id={"admin-flash-message-input-#{@id}"} name="message" />
-
-          <.button>Send</.button>
-        </form>
-      </.modal>
+      <.admin_message_modal id={@id} myself={@myself} />
     </div>
     """
   end
@@ -163,6 +150,27 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
     """
   end
 
+  attr :id, :string, required: true
+  attr :myself, :any, required: true
+
+  def admin_message_modal(assigns) do
+    ~H"""
+    <.modal id={"admin-flash-message-modal-#{@id}"}>
+      <form
+        id={"admin-flash-message-form-#{@id}"}
+        class="flex flex-col items-start space-y-6"
+        phx-submit={
+          JS.push("send_admin_flash_message", target: @myself)
+          |> hide_modal("admin-flash-message-modal-#{@id}")
+        }
+      >
+        <textarea id={"admin-flash-message-input-#{@id}"} name="message" />
+        <.button>Send</.button>
+      </form>
+    </.modal>
+    """
+  end
+
   ### Server
 
   def mount(socket) do
@@ -179,6 +187,7 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
   def send_admin_flash(_pid, ""), do: nil
 
   def send_admin_flash(pid, message) when is_binary(message) do
-    send(pid, {:admin_flash, :admin, message})
+    # TODO: special "admin" level message with special UI in flash group
+    send(pid, {:admin_flash, :info, message})
   end
 end

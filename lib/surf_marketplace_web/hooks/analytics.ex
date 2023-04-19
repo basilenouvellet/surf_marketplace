@@ -8,6 +8,7 @@ defmodule SurfMarketplaceWeb.Hooks.Analytics do
       socket
       |> assign_analytics_data()
       |> attach_hook(:set_current_path, :handle_params, &set_current_path/3)
+      |> attach_hook(:handle_admin_message, :handle_info, &handle_admin_message/2)
 
     {:cont, socket}
   end
@@ -33,4 +34,11 @@ defmodule SurfMarketplaceWeb.Hooks.Analytics do
     socket = update(socket, :analytics_data, &%{&1 | current_path: current_path})
     {:cont, socket}
   end
+
+  defp handle_admin_message({:admin_flash, level, msg}, socket) do
+    {:halt, put_flash(socket, level, msg)}
+  end
+
+  # NOTE: Important catch-all clause to prevent intercepting other messages.
+  defp handle_admin_message(_, socket), do: {:cont, socket}
 end
