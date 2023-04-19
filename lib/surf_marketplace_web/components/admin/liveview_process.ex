@@ -6,13 +6,8 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
     <div id={@id} class="p-4 space-y-4 text-sm text-neutral-500 bg-white rounded-md shadow-md">
       <div class="flex flex-wrap gap-3 justify-between items-baseline">
         <div class="flex flex-wrap gap-3 items-baseline">
-          <%!-- PID --%>
-          <button
-            class="tabular-nums hover:bg-neutral-100 rounded p-1 transition-colors duration-75"
-            phx-click={show_modal("admin-flash-message-modal-#{@id}")}
-          >
-            <%= inspect(@liveview.pid) %>
-          </button>
+          <%!-- PID button --%>
+          <.pid_button id={@id} pid={@liveview.pid} />
 
           <%!-- Current page --%>
           <.current_page
@@ -21,8 +16,13 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
           />
         </div>
 
-        <%!-- RAM --%>
-        <.ram memory={@liveview.memory} />
+        <div class="flex flex-wrap gap-2 items-center">
+          <%!-- Kill button --%>
+          <.kill_button myself={@myself} />
+
+          <%!-- RAM --%>
+          <.ram memory={@liveview.memory} />
+        </div>
       </div>
 
       <div class="flex flex-wrap gap-4 [&>*]:min-w-[min(100%,30ch)]">
@@ -48,6 +48,20 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
 
   ### Components
 
+  attr :id, :string, required: true
+  attr :pid, :any, required: true
+
+  def pid_button(assigns) do
+    ~H"""
+    <button
+      class="tabular-nums hover:bg-neutral-100 rounded p-1 transition-colors duration-75"
+      phx-click={show_modal("admin-flash-message-modal-#{@id}")}
+    >
+      <%= inspect(@pid) %>
+    </button>
+    """
+  end
+
   attr :path, :string, required: true
   attr :page_title, :string, required: true
 
@@ -57,6 +71,19 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
       <span :if={@page_title}><%= @page_title %></span>
       <span class="font-semibold"><%= @path || "no path found" %></span>
     </p>
+    """
+  end
+
+  attr :myself, :any, required: true
+
+  def kill_button(assigns) do
+    ~H"""
+    <button
+      class="text-neutral-400/80 hover:text-neutral-400 hover:bg-neutral-100 rounded py-1 px-2 transition-colors duration-75"
+      phx-click={JS.push("kill_liveview", target: @myself)}
+    >
+      <.icon name="hero-trash-mini" class="w-4 h-4 mb-0.5" />
+    </button>
     """
   end
 
@@ -180,20 +207,13 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
 
   ### Server
 
-  def mount(socket) do
-    {:ok, socket}
-  end
-
   def handle_event("send_admin_flash_message", %{"message" => msg}, socket) do
-    send_admin_flash(socket.assigns.liveview.pid, msg)
+    send(socket.assigns.liveview.pid, {:admin_flash, :admin, msg})
     {:noreply, socket}
   end
 
-  ### Helpers
-
-  def send_admin_flash(_pid, ""), do: nil
-
-  def send_admin_flash(pid, message) when is_binary(message) do
-    send(pid, {:admin_flash, :admin, message})
+  def handle_event("kill_liveview", _, socket) do
+    Process.exit(socket.assigns.liveview.pid, :kill)
+    {:noreply, socket}
   end
 end
