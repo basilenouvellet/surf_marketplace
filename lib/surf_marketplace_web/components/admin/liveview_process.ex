@@ -41,7 +41,7 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
         </.details>
       </div>
 
-      <.admin_message_modal id={@id} myself={@myself} />
+      <.admin_message_modal id={@id} myself={@myself} string_pid={inspect(@liveview.pid)} />
     </div>
     """
   end
@@ -152,19 +152,21 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
 
   attr :id, :string, required: true
   attr :myself, :any, required: true
+  attr :string_pid, :string, required: true
 
   def admin_message_modal(assigns) do
     ~H"""
     <.modal id={"admin-flash-message-modal-#{@id}"}>
       <form
         id={"admin-flash-message-form-#{@id}"}
-        class="flex flex-col items-start space-y-6"
+        class="max-w-sm mx-auto flex flex-col items-stretch space-y-6"
         phx-submit={
           JS.push("send_admin_flash_message", target: @myself)
           |> hide_modal("admin-flash-message-modal-#{@id}")
         }
       >
-        <textarea id={"admin-flash-message-input-#{@id}"} name="message" />
+        <p class="text-zinc-800 font-bold">Send a flash message to user <%= @string_pid %></p>
+        <textarea id={"admin-flash-message-input-#{@id}"} name="message" class="rounded-md" rows="4" />
         <.button>Send</.button>
       </form>
     </.modal>
