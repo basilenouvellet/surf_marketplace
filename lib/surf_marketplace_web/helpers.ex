@@ -1,4 +1,16 @@
 defmodule SurfMarketplaceWeb.Helpers do
+  def utc_now do
+    DateTime.utc_now()
+    |> DateTime.truncate(:second)
+    |> DateTime.to_iso8601()
+  end
+
+  def pid_to_dom_id(pid) when is_pid(pid) do
+    pid
+    |> inspect()
+    |> String.replace(~r/#|<|>|\./, "")
+  end
+
   @doc """
   ## Examples
 

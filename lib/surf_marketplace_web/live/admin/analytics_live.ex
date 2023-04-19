@@ -1,6 +1,8 @@
 defmodule SurfMarketplaceWeb.Admin.AnalyticsLive do
   use SurfMarketplaceWeb, :live_view
 
+  import SurfMarketplaceWeb.Helpers
+
   alias SurfMarketplace.Admin.Analytics
 
   def render(assigns) do
@@ -19,7 +21,7 @@ defmodule SurfMarketplaceWeb.Admin.AnalyticsLive do
         <.live_component
           :for={lv <- @liveviews}
           module={SurfMarketplaceWeb.Components.Admin.LiveviewProcess}
-          id={"liveview-process-#{inspect lv.pid}"}
+          id={"liveview-process-#{pid_to_dom_id(lv.pid)}"}
           liveview={lv}
         />
       </div>
@@ -58,9 +60,5 @@ defmodule SurfMarketplaceWeb.Admin.AnalyticsLive do
 
   defp schedule_refresh do
     Process.send_after(self(), :refresh, @refresh_interval)
-  end
-
-  defp utc_now do
-    DateTime.utc_now() |> DateTime.truncate(:second) |> DateTime.to_iso8601()
   end
 end
