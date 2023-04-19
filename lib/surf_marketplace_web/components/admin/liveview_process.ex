@@ -187,7 +187,6 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
   def send_admin_flash(_pid, ""), do: nil
 
   def send_admin_flash(pid, message) when is_binary(message) do
-    # TODO: special "admin" level message with special UI in flash group
-    send(pid, {:admin_flash, :info, message})
+    send(pid, {:admin_flash, :admin, message})
   end
 end
