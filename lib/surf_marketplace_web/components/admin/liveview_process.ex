@@ -14,10 +14,11 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
             <%= inspect(@liveview.pid) %>
           </button>
 
-          <%!-- Current path --%>
-          <p class="font-medium text-blue-700 bg-blue-100 rounded-full py-0.5 px-2">
-            <%= @liveview.assigns[:analytics_data][:current_path] || "no path found" %>
-          </p>
+          <%!-- Current page --%>
+          <.current_page
+            path={@liveview.assigns[:analytics_data][:current_path]}
+            page_title={@liveview.assigns[:page_title]}
+          />
         </div>
 
         <%!-- RAM --%>
@@ -60,12 +61,24 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
 
   ### Components
 
+  attr :path, :string, required: true
+  attr :page_title, :string, required: true
+
+  def current_page(assigns) do
+    ~H"""
+    <p class="flex items-baseline gap-3 text-blue-700 bg-blue-100 rounded-full py-0.5 px-2">
+      <span :if={@page_title}><%= @page_title %></span>
+      <span class="font-semibold pr-0.5"><%= @path || "no path found" %></span>
+    </p>
+    """
+  end
+
   attr :memory, :integer, required: true
 
   def ram(assigns) do
     ~H"""
     <p class={[
-      "text-xs font-medium tabular-nums rounded-full py-0.5 px-2 transition-colors",
+      "tabular-nums rounded-full py-0.5 px-2 transition-colors",
       cond do
         @memory in 0..50_000 -> "text-green-700 bg-green-100"
         @memory in 50_000..300_000 -> "text-orange-700 bg-orange-100"
