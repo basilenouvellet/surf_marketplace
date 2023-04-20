@@ -26,7 +26,10 @@ defmodule SurfMarketplaceWeb.Router do
     pipe_through :browser
 
     live_session :default, on_mount: Hooks.Analytics do
-      live "/", HomeLive
+      live "/", HomeLive, :index
+      live "/buy", HomeLive, :buy
+      live "/sell", HomeLive, :sell
+
       live "/log_in", AccountLive, :log_in
       live "/register", AccountLive, :register
     end
