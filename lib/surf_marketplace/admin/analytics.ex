@@ -1,4 +1,6 @@
 defmodule SurfMarketplace.Admin.Analytics do
+  alias SurfMarketplaceWeb.Helpers
+
   def list_liveviews do
     list_liveviews_pids()
     # can't get our own state
@@ -63,6 +65,20 @@ defmodule SurfMarketplace.Admin.Analytics do
       end
     )
     |> Enum.reject(&is_nil/1)
+  end
+
+  @events_topic "analytics:liveview_events"
+
+  def subscribe_to_events do
+    Phoenix.PubSub.subscribe(SurfMarketplace.PubSub, @events_topic)
+  end
+
+  def broadcast_event(name, params) do
+    from = self()
+    created_at = Helpers.utc_now()
+    message = {:liveview_event, name, params, from, created_at}
+
+    Phoenix.PubSub.broadcast(SurfMarketplace.PubSub, @events_topic, message)
   end
 
   ### Helpers

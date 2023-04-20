@@ -23,6 +23,7 @@ defmodule SurfMarketplaceWeb.Admin.AnalyticsLive do
           module={SurfMarketplaceWeb.Components.Admin.LiveviewProcess}
           id={"liveview-process-#{pid_to_dom_id(lv.pid)}"}
           liveview={lv}
+          events={Enum.filter(@events, &(&1.from == lv.pid))}
         />
       </div>
     </div>
@@ -34,10 +35,13 @@ defmodule SurfMarketplaceWeb.Admin.AnalyticsLive do
       assign(socket,
         page_title: "Analytics",
         liveviews: [],
+        events: [],
         last_refreshed_at: nil
       )
 
     send(self(), :refresh)
+
+    if connected?(socket), do: Analytics.subscribe_to_events()
 
     {:ok, socket, layout: false}
   end
@@ -51,6 +55,12 @@ defmodule SurfMarketplaceWeb.Admin.AnalyticsLive do
 
     schedule_refresh()
 
+    {:noreply, socket}
+  end
+
+  def handle_info({:liveview_event, name, params, from, created_at}, socket) do
+    event = %{name: name, params: params, from: from, created_at: created_at}
+    socket = update(socket, :events, &[event | &1])
     {:noreply, socket}
   end
 

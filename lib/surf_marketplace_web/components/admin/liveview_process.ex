@@ -25,7 +25,7 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-4 [&>*]:min-w-[min(100%,30ch)]">
+      <div class="flex flex-wrap gap-4 [&>*]:min-w-[min(100%,40ch)]">
         <%!-- Assigns --%>
         <.details class="flex-1">
           <:summary>Assigns</:summary>
@@ -38,6 +38,27 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
           <:summary>Analytics</:summary>
 
           <.pretty_print data={@liveview.assigns[:analytics_data]} />
+        </.details>
+
+        <%!-- Events --%>
+        <.details class="flex-1">
+          <:summary>Events</:summary>
+
+          <div class="max-h-[20rem] mt-4 pb-2 px-4 overflow-y-auto">
+            <ul id="events" class="flex flex-col gap-2">
+              <li
+                :for={event <- @events}
+                class="flex flex-wrap items-baseline gap-4 p-4 text-sm text-neutral-700 bg-neutral-200/80 rounded-md shadow-md"
+              >
+                <span class="text-xs tabular-nums text-neutral-500"><%= event.created_at %></span>
+                <span class=""><%= inspect(event.from) %></span>
+                <span class="font-semibold"><%= event.name %></span>
+                <span class="text-neutral-600"><%= inspect(event.params) %></span>
+              </li>
+
+              <p :if={@events == []} class="mx-auto mt-2 text-xs text-neutral-400">no events yet</p>
+            </ul>
+          </div>
         </.details>
       </div>
 
@@ -170,7 +191,7 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
         <% @data == %{} -> %>
           %{}
         <% true -> %>
-          <%= @data %>
+          <%= inspect(@data) %>
       <% end %>
     </span>
     """

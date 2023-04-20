@@ -3,12 +3,15 @@ defmodule SurfMarketplaceWeb.Hooks.Analytics do
   import Phoenix.Component
   import SurfMarketplaceWeb.Helpers
 
+  alias SurfMarketplace.Admin.Analytics
+
   def on_mount(:default, _params, _session, socket) do
     socket =
       socket
       |> assign_analytics_data()
       |> attach_hook(:set_current_path, :handle_params, &set_current_path/3)
       |> attach_hook(:handle_admin_message, :handle_info, &handle_admin_message/2)
+      |> attach_hook(:broadcast_event, :handle_event, &broadcast_event/3)
 
     {:cont, socket}
   end
@@ -39,6 +42,13 @@ defmodule SurfMarketplaceWeb.Hooks.Analytics do
     {:halt, put_flash(socket, level, msg)}
   end
 
-  # NOTE: Important catch-all clause to prevent intercepting other messages.
+  # NOTE: Important, catch-all clause to prevent intercepting other messages.
   defp handle_admin_message(_, socket), do: {:cont, socket}
+
+  defp broadcast_event(name, params, socket) do
+    Analytics.broadcast_event(name, params)
+
+    # NOTE: Important, let the liveview handle the event (continue the reduction).
+    {:cont, socket}
+  end
 end
