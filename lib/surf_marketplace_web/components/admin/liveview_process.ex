@@ -48,10 +48,10 @@ defmodule SurfMarketplaceWeb.Components.Admin.LiveviewProcess do
             <ul id="events" class="flex flex-col gap-2">
               <li
                 :for={event <- @events}
-                class="flex flex-wrap items-baseline gap-4 p-4 text-sm text-neutral-700 bg-neutral-200/80 rounded-md shadow-md"
+                class="flex flex-wrap items-baseline gap-4 p-4 text-sm text-neutral-700 bg-neutral-200/25 border border-neutral-300 rounded-md shadow"
               >
                 <span class="text-xs tabular-nums text-neutral-500"><%= event.created_at %></span>
-                <span class=""><%= inspect(event.from) %></span>
+                <%!-- <span class=""><%= inspect(event.from) %></span> --%>
                 <span class="font-semibold"><%= event.name %></span>
                 <span class="text-neutral-600"><%= inspect(event.params) %></span>
               </li>
