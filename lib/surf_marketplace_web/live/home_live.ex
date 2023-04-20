@@ -49,20 +49,28 @@ defmodule SurfMarketplaceWeb.HomeLive do
   ### Server
 
   def mount(_params, _session, socket) do
-    socket =
-      assign(socket,
-        page_title: "Home",
-        price: nil
-      )
-
-    {:ok, socket}
+    {:ok, assign(socket, price: nil)}
   end
 
   def handle_params(_params, _url, socket) do
-    {:noreply, socket}
+    {:noreply, assign_page_title(socket)}
   end
 
   def handle_event("price_changed", %{"price" => price} = _args, socket) do
     {:noreply, assign(socket, price: price)}
+  end
+
+  ### Helpers
+
+  defp assign_page_title(socket) when socket.assigns.live_action == :buy do
+    assign(socket, page_title: "Buy")
+  end
+
+  defp assign_page_title(socket) when socket.assigns.live_action == :sell do
+    assign(socket, page_title: "Sell")
+  end
+
+  defp assign_page_title(socket) do
+    assign(socket, page_title: "Home")
   end
 end
