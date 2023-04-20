@@ -22,7 +22,7 @@ defmodule SurfMarketplaceWeb.HomeLive do
 
     <form id="price_form" phx-change="price_changed">
       <label for="price_input" class="font-semibold mr-2">Price:</label>
-      <input id="price_input" type="number" name="price" class="rounded-md" />
+      <input id="price_input" type="number" name="price" value={@price} class="rounded-md" />
     </form>
     """
   end
