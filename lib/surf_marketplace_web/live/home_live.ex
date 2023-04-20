@@ -12,13 +12,13 @@ defmodule SurfMarketplaceWeb.HomeLive do
 
   def render(%{live_action: :buy} = assigns) do
     ~H"""
-    <h1 class="mb-4 mx-auto font-semibold text-lg">Buy</h1>
+    <h1 class="mx-auto font-semibold text-2xl">Buy</h1>
     """
   end
 
   def render(%{live_action: :sell} = assigns) do
     ~H"""
-    <h1 class="mx-auto font-semibold text-lg">Sell</h1>
+    <h1 class="mb-4 mx-auto font-semibold text-2xl">Sell</h1>
 
     <form id="price_form" phx-change="price_changed">
       <label for="price_input" class="font-semibold mr-2">Price:</label>
