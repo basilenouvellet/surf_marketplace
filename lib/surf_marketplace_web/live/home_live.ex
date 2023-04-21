@@ -3,7 +3,7 @@ defmodule SurfMarketplaceWeb.HomeLive do
 
   def render(%{live_action: :index} = assigns) do
     ~H"""
-    <div class="max-w-lg flex items-stretch gap-10">
+    <div class="max-w-lg mx-auto flex items-stretch gap-10">
       <.big_button patch={~p"/buy"}>Buy</.big_button>
       <.big_button patch={~p"/sell"}>Sell</.big_button>
     </div>
