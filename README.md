@@ -23,7 +23,7 @@ This is the demo of my talk **Real-time Product Analytics with LiveView** at **E
 
 [![talk](https://img.youtube.com/vi/N9KZmMiGc5g/0.jpg)](https://www.youtube.com/watch?v=N9KZmMiGc5g)
 
-Slides of my talk are [available here](https://slides.com/basilenouvellet/palette/fullscreen)
+Slides are [available here](https://slides.com/basilenouvellet/palette/fullscreen)
 
 ## Disclaimer
 
