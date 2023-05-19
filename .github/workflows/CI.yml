@@ -32,11 +32,9 @@ jobs:
     name: "quality checks"
     uses: ./.github/workflows/quality-checks.yml
 
-  build-docker-image:
-    name: "build docker image"
-    # needs: [build-and-test, type-linting, quality-checks]
-    # needs: [build-and-test, quality-checks]
-    uses: ./.github/workflows/build-docker-image.yml
+  # build-docker-image:
+  #   name: "build docker image"
+  #   uses: ./.github/workflows/build-docker-image.yml
 
   # deploy-to-fly-io:
   #   if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
