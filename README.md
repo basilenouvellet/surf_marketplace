@@ -5,7 +5,7 @@
   <img src="priv/static/images/screenshot_home_page.png" alt="surf marketplace screenshot home page" />
 </p>
 
-## Prensentation
+## Presentation
 
 This is a fake marketplace for buying & selling used surfboards. It is basic and kind of empty.
 
