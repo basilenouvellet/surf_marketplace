@@ -56,7 +56,7 @@ jobs:
 
       - name: Run Tests
         # run: mix coveralls.json --warnings-as-errors
-        run: mix test --cover --warnings-as-errors
+        run: mix test --warnings-as-errors
         if: always()
 
       # Codecov bot will comment on the PR with per-file coverage deltas.
