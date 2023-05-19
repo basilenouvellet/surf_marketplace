@@ -5,7 +5,7 @@
   <img src="priv/static/images/screenshot_home_page.png" alt="surf marketplace screenshot home page" />
 </p>
 
-This is the demo of my talk **Real-time Product Analytics with LiveView** at **ElixirConfEU 2023** in Lisbon 🇵🇹
+## Prensentation
 
 This is a fake marketplace for buying & selling used surfboards. It is basic and kind of empty.
 
@@ -16,6 +16,14 @@ The interesting part is the `/admin/analytics` page, with an admin dashboard lis
 - liveview assigns (updated in real-time)
 - ability to kill a process
 - ability to send a message to the user through flash messages & message passing
+
+## Talk
+
+This is the demo of my talk **Real-time Product Analytics with LiveView** at **ElixirConfEU 2023** in Lisbon 🇵🇹
+
+[![talk](https://img.youtube.com/vi/N9KZmMiGc5g/0.jpg)](https://www.youtube.com/watch?v=N9KZmMiGc5g)
+
+Slides of my talk are [available here](https://slides.com/basilenouvellet/palette/fullscreen)
 
 ## Disclaimer
 
