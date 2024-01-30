@@ -21,7 +21,7 @@ The interesting part is the `/admin/analytics` page, with an admin dashboard lis
 
 This is the demo of my talk **Real-time Product Analytics with LiveView** at **ElixirConfEU 2023** in Lisbon 🇵🇹
 
-[![talk](https://img.youtube.com/vi/N9KZmMiGc5g/0.jpg)](https://www.youtube.com/watch?v=N9KZmMiGc5g)
+[![talk](https://img.youtube.com/vi/N9KZmMiGc5g/0.jpg)](https://www.youtube.com/watch?v=T_ET9_BGs1M)
 
 Slides are [available here](https://slides.com/basilenouvellet/palette/fullscreen)
 
